@@ -7,7 +7,7 @@ The repository documents my progress across Windows, Linux, Git, Docker, Kuberne
 
 ## Projects
 
-| Date        | Title                                     | Repository                                    |
+| Date        | Title                                     | Repository (TBD)                              |
 | ----------- | ----------------------------------------- | --------------------------------------------- |
 | 15 Sep 2026 | Windows Backup & File Deletion Automation | [View Project](./01-windows-backup)           |
 |             | Windows Service Account Management        | [View Project](./02-windows-service-accounts) |
