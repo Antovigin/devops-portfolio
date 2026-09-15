@@ -19,7 +19,7 @@ The repository documents my progress across Windows, Linux, Git, Docker, Kuberne
 |             | Azure Practice                            | [View Project](./08-azure)                    |
 |             | Monitoring & Observability                | [View Project](./09-monitoring)               |
 
-## Technologies
+## Technologies (in plan to use)
 
 * PowerShell
 * Windows
