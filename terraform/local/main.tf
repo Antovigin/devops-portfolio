@@ -36,11 +36,30 @@ resource "terraform_data" "directories" {
   }
 }
 
+resource "terraform_data" "iis" {
+  provisioner "local-exec" {
+    interpreter = ["PowerShell", "-NoProfile", "-NonInteractive", "-Command"]
+    command     = <<-POWERSHELL
+      $ErrorActionPreference = 'Stop'
+      $principal = [Security.Principal.WindowsPrincipal]::new([Security.Principal.WindowsIdentity]::GetCurrent())
+      if (-not $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
+        throw 'Enabling IIS requires an elevated PowerShell session. Run Terraform as Administrator.'
+      }
+
+      Enable-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole -All -NoRestart | Out-Null
+      $feature = Get-WindowsOptionalFeature -Online -FeatureName IIS-WebServerRole
+      if ($feature.State -ne 'Enabled') {
+        throw "IIS-WebServerRole did not reach the Enabled state (current state: $($feature.State))."
+      }
+    POWERSHELL
+  }
+}
+
 resource "local_file" "welcome_page" {
   filename = local.html_path
   content  = local.html_content
 
-  depends_on = [terraform_data.directories]
+  depends_on = [terraform_data.directories, terraform_data.iis]
 }
 
 output "created_directories" {
